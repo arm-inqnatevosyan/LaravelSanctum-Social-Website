@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('title');
-            $table->string('author');
             $table->timestamps();
-            $table->unsignedBigInteger('contact_id');
-            $table->foreign('contact_id')
-            ->references('id')->on('contacts')->onDelete('cascade');
-            
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('categories');
     }
 };

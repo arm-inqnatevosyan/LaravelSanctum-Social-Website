@@ -2,26 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
 use App\Models\Comment;
+use App\Models\Category;
+use App\Models\User;
 
-class ContactController extends Controller
+class ContactController extends BaseController
 {
-    public function submit(ContactRequest $req){
+    public function submit(ContactRequest $req){ 
         $contact = new Contact();
         $contact->name = $req->input('name');
         $contact->email = $req->input('email');
-        $contact->subject = $req->input('subject');
-
+        $contact->subject = $req->input('description');
+        $contact->category = $req->input('category');
+        $contact->user_id = auth()->user()->id;
         $contact->save();
 
-        return "success";
+        $category = Category::find($contact->category);
+        $contact->categories()->attach($category);
+        return $this->sendSuccses($contact, 'succses');
     }
     public function allData(){
-        return ['data' => Contact::all()];
+        $contacts = User::with('contacts.comments')->get();
+        return $contacts;
     }
     public function showOneMessage($id){
         $contact = new Contact();
@@ -31,7 +37,7 @@ class ContactController extends Controller
         $contact = Contact::find($id);
         $contact->name = $req->input('name');
         $contact->email = $req->input('email');
-        $contact->email = $req->input('subject');
+        $contact->subject = $req->input('description');
         $contact->save();
         return $contact;
     }
@@ -43,17 +49,5 @@ class ContactController extends Controller
     {
         $contacts = Contact::with('comments')->get();
         return $contacts;
-    }
-    public function allDataa()
-    {
-        $contact = Contact::all();
-        $comment = Comment::all();
-        $data = [
-            'users' => $contact,
-            'comments' => $comment,
-        ];
-        $posts = Contact::whereRelation('Comment', 'is_approved', false)->get();
-
-        return response()->json($data);
     }
 }

@@ -15,7 +15,7 @@ Route::get('/about', function () {
 })->name('about');
 
 // Route::get('/posts', 'App\Http\Controllers\ContactController@index')->name('posts');
-Route::get('/posts', 'App\Http\Controllers\Web\CommentController@allDataa')->name('posts');
+// Route::get('/posts', 'App\Http\Controllers\Web\CommentController@allDataa')->name('posts');
 
 
 Route::get('/contact/all/{id}',

@@ -16,22 +16,13 @@ class CommentController extends Controller
         $contacts = Contact::with('comments')->get();
         return $contacts;
     }
-    public function allDataa()
-    {
-        $contact = Contact::all();
-        $comment = Comment::all();
-        $data = [
-            'users' => $contact,
-            'comments' => $comment,
-        ];
-
-        return response()->json($data);
-    }
     public function submit(CommentRequest $req){
-        $contact = new Comment();
-        $contact->title = $req->input('title');
-        $contact->contact_id = $req->input('contact_id');
-        $contact->save();
-        return "success";
+        $comment = new Comment();
+        $comment->contact_id = $req->input('contact_id');
+        $comment->title = $req->input('title');
+        $comment->author = auth()->user()->name;
+        $comment->save();
+        
+        return $comment;
     }
 }

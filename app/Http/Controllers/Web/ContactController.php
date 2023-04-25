@@ -52,22 +52,8 @@ class ContactController extends Controller
     }
     public function index()
     {
-        // $comment = Comment::find(2);
-        // $contacts = Contact::where('comment_id',$comment->id)->get();
-        // dd($comment->posts);
         $contact = Contact::all();
         $comment = $contact->posts;
         return (json_decode($contact));
-    }
-    public function allDataa()
-    {
-        $contact = Contact::all();
-        $comment = Comment::all();
-        $data = [
-            'users' => $contact,
-            'comments' => $comment,
-        ];
-
-        return response()->json($data);
     }
 }

@@ -1,50 +1,38 @@
-<?php
+<?php header('Access-Control-Allow-Origin: *');
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CategoryController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/posts', 'App\Http\Controllers\ContactController@index')->name('posts');
-
-Route::post('/posts/comments','App\Http\Controllers\CommentController@submit')->name('posts-comments');
-Route::get('/posts/comments','App\Http\Controllers\CommentController@index')->name('posts-comments');
-
-Route::get('/contact/all/{id}',
-'App\Http\Controllers\ContactController@showOneMessage'
-)->name('contact-data-one');
-
-Route::get('/contact/all/{id}/update',
-'App\Http\Controllers\ContactController@updateMessageSubmit'
-)->name('contact-update');
-
-Route::put('/contact/all/{id}/update',
-'App\Http\Controllers\ContactController@updateMessageSubmit'
-)->name('contact-update-submit');
-
-Route::get('/contact/all/{id}/delete',
-'App\Http\Controllers\ContactController@deleteMessage'
-)->name('contact-delete');
-
-Route::delete('/contact/all/{id}/delete',
-'App\Http\Controllers\ContactController@deleteMessage'
-)->name('contact-delete');
+Route::post('/register', [AuthController::class,'createUser']);
+Route::post('/login', [AuthController::class,'loginUser']);
 
 Route::get('/postman/csrf', function (Request $request) {
-	return csrf_token();
+    return csrf_token();
 });
 
-Route::get('/contact/all','App\Http\Controllers\ContactController@allData')->name('contact-data');
-Route::post('/contact/submit','App\Http\Controllers\ContactController@submit')->name('contact-form');
+Route::middleware('auth:sanctum')->group(function () { 
+    Route::get('/categorys', CategoryController::class)->name('categorys');
 
+    Route::get('/contacts', [ContactController::class,'index']);
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('register', 'register');
-    Route::post('logout', 'logout');
-    Route::post('refresh', 'refresh');
+    Route::post('/contacts/comments',[CommentController::class,'submit']);   
+    Route::get('/contacts/comments',[CommentController::class,'index'])->name('posts-comments');
+
+    Route::get('/contacts/{id}',[ContactController::class,'showOneMessage'])->name('contact-data-one');
+
+    Route::get('/contacts/{id}/update',[ContactController::class,'updateMessageSubmit']);
+    Route::put('/contacts/{id}/update',[ContactController::class,'updateMessageSubmit']);
+
+    Route::get('/contacts/{id}/delete',[ContactController::class,'deleteMessage'])->name('contact-delete');
+    Route::delete('/contacts/{id}/delete',[ContactController::class,'deleteMessage'])->name('contact-delete');
+
+    Route::get('/contact',[ContactController::class,'allData']);
+    Route::post('/contact',[ContactController::class,'submit']);
+
+    Route::get('/query', [AuthController::class,'queryy']);
+    Route::get('/auth', [AuthController::class,'auth']);
 });
