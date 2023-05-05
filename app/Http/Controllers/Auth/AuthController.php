@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
@@ -10,14 +10,12 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     public function createUser(Request $request)
     {
         try {
-            //Validated
             $validateUser = Validator::make($request->all(), 
             [
                 'name' => 'required',
@@ -74,6 +72,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',
+                    'errors' => 'Email & Password does not match '
                 ], 401);
             }
 
@@ -91,13 +90,6 @@ class AuthController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
-    }
-    public function queryy()
-    {
-        $postsWithRecentComments = Contact::whereHas('comments', function ($query) {
-            $query->where('created_at', '>=', now()->subWeek());
-        })->get();
-        return response()->json($postsWithRecentComments);
     }
     public function auth()
     {

@@ -2,10 +2,20 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Auth\AuthController;
+
+use App\Http\Controllers\Contacts\Comments\PostController;
+use App\Http\Controllers\Contacts\Comments\GetController;
+use App\Http\Controllers\Contacts\Comments\QueryController;
+use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\Contacts\Get_Controller;
+use App\Http\Controllers\Contacts\Post_Controller;
+use App\Http\Controllers\Categories\AddController;
+use App\Http\Controllers\Categories\ViewController;
+
+use App\Http\Controllers\Contacts\Update_Controller;
+use App\Http\Controllers\Contacts\Delete_Controller;
+use App\Http\Controllers\Categories\ViewAllController;
 
 Route::post('/register', [AuthController::class,'createUser']);
 Route::post('/login', [AuthController::class,'loginUser']);
@@ -15,24 +25,25 @@ Route::get('/postman/csrf', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () { 
-    Route::get('/categorys', CategoryController::class)->name('categorys');
 
-    Route::get('/contacts', [ContactController::class,'index']);
+    Route::get('/categories', ViewAllController::class);
 
-    Route::post('/contacts/comments',[CommentController::class,'submit']);   
-    Route::get('/contacts/comments',[CommentController::class,'index'])->name('posts-comments');
+    Route::get('/contacts', Get_Controller::class);
+    Route::post('/contacts/comments',PostController::class);   
+    Route::get('/contacts/comments',GetController::class);
 
-    Route::get('/contacts/{id}',[ContactController::class,'showOneMessage'])->name('contact-data-one');
+    Route::get('/contacts/{id}/update',Update_Controller::class);
+    Route::put('/contacts/{id}/update',Update_Controller::class);
 
-    Route::get('/contacts/{id}/update',[ContactController::class,'updateMessageSubmit']);
-    Route::put('/contacts/{id}/update',[ContactController::class,'updateMessageSubmit']);
+    Route::get('/contacts/{id}/delete',Delete_Controller::class);
+    Route::delete('/contacts/{id}/delete',Delete_Controller::class);
 
-    Route::get('/contacts/{id}/delete',[ContactController::class,'deleteMessage'])->name('contact-delete');
-    Route::delete('/contacts/{id}/delete',[ContactController::class,'deleteMessage'])->name('contact-delete');
+    Route::get('/contact',UsersController::class);
+    Route::post('/contact',Post_Controller::class);
 
-    Route::get('/contact',[ContactController::class,'allData']);
-    Route::post('/contact',[ContactController::class,'submit']);
+    Route::get('/query', QueryController::class);
 
-    Route::get('/query', [AuthController::class,'queryy']);
-    Route::get('/auth', [AuthController::class,'auth']);
+    Route::post('/category', AddController::class);
+    Route::get('/category', ViewController::class);
+    
 });

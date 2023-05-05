@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,7 @@ class ContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:50',
-            'email' => 'required|email|max:50',
-            'description' => 'required|max:50',
-            'category' => 'required'
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'This field cannot be empty,name is required'
+            'title' => 'required|max:50'
         ];
     }
 }

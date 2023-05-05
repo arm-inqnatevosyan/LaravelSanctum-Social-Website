@@ -10,12 +10,7 @@ use App\Models\User;
 
 class BaseController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function sendSuccses($result, $message)
+    public function sendSuccess($result, $message)
     {
         $response = [
             'success' => true,
@@ -23,15 +18,9 @@ class BaseController extends Controller
             'message' => $message,
         ];
 
-        return response()->json($response, 200);
+        return response()->json($response);
     }
 
-
-    /**
-     * return error response.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function sendError($error, $errorMessages = [], $code = 404)
     {
         $response = [
