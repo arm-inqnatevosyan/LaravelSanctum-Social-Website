@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Categories;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 
-class AddController extends Controller
+class PostCategoryController extends BaseController
 {
     public function __invoke(CategoryRequest $request){ 
         $contact = new Category();
@@ -16,6 +17,6 @@ class AddController extends Controller
 
         $contact->save();
 
-        return $contact;
+        return $this->sendSuccess($contact,'success');
     }
 }

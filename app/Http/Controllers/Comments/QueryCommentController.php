@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Contacts\Comments;
+namespace App\Http\Controllers\Comments;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 
-class QueryController extends BaseController
+class QueryCommentController extends BaseController
 {
     
     public function __invoke()

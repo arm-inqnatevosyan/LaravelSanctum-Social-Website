@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Contacts\Comments;
+namespace App\Http\Controllers\Comments;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
 
-class PostController extends BaseController
+class PostCommentController extends BaseController
 {
     public function __invoke(CommentRequest $request){
         $comment = new Comment();

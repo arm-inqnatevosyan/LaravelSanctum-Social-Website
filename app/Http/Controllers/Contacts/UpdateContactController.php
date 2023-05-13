@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Http\Requests\ContactRequest;
 
-class Update_Controller extends BaseController
+class UpdateContactController extends BaseController
 {
     public function __invoke($id,ContactRequest $request){
         $contact = Contact::query()->find($id);
@@ -16,6 +16,6 @@ class Update_Controller extends BaseController
         $contact->email = $request->input('email');
         $contact->subject = $request->input('description');
         $contact->save();
-        return $contact;
+        return $this->sendSuccess($contact,'success');
     }
 }

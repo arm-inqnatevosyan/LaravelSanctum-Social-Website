@@ -9,7 +9,7 @@ use App\Models\Contact;
 use App\Models\Category;
 use App\Http\Requests\ContactRequest;
 
-class Post_Controller extends BaseController
+class PostContactController extends BaseController
 {
     public function __invoke(ContactRequest $request){ 
         $contact = new Contact();

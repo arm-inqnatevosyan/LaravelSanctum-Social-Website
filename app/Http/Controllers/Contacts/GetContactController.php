@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Contacts\Comments;
+namespace App\Http\Controllers\Contacts;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Contact;
-use App\Http\Requests\CommentRequest;
 
-class GetController extends BaseController
+class GetContactController extends BaseController
 {
-    public function __invoke(CommentRequest $request)
+    public function __invoke()
     {
         $contacts = Contact::query()->with('comments')->get();
         return $this->sendSuccess($contacts, 'success');
