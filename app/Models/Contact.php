@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Comment;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Likes;
 
 class Contact extends Model
 {
@@ -27,5 +28,9 @@ class Contact extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
     }
 }

@@ -13,6 +13,8 @@ use App\Http\Controllers\Categories\PostCategoryController;
 use App\Http\Controllers\Categories\GetCategoryController;
 use App\Http\Controllers\Contacts\UpdateContactController;
 use App\Http\Controllers\Contacts\DeleteContactController;
+use App\Http\Controllers\Contacts\AddLikeContactController;
+use App\Http\Controllers\Contacts\GetLikeContactController;
 use App\Http\Controllers\Categories\GetCategoryContactsController;
 
 Route::post('/register', [AuthController::class,'createUser']);
@@ -49,4 +51,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/category', PostCategoryController::class);
     Route::get('/category', GetCategoryController::class);
     
+    Route::get('/likes', GetLikeContactController::class);
+    Route::post('/likes/{id}', AddLikeContactController::class);
+
+    Route::get('/author',  function () {
+        return auth() -> id();
+   });
 });

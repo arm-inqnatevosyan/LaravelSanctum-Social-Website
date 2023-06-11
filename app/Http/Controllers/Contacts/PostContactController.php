@@ -15,6 +15,7 @@ class PostContactController extends BaseController
         $contact = new Contact();
         $contact->name = $request->input('name');
         $contact->email = $request->input('email');
+        $contact->author = auth()->user()->id;
         $contact->subject = $request->input('description');
         $contact->category = $request->input('category');
         $contact->user_id = auth()->user()->id;
